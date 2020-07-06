@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Layout from '../components/common/layout'
-import SEO from '../components/common/seo/seo'
+import SEO from '../components/common/seo'
 
 const Container = styled.div`
   margin: 3rem auto;
