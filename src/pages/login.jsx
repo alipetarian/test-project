@@ -1,13 +1,14 @@
 import React from 'react'
+import { navigate } from 'gatsby'
 import Layout from '../components/common/layout'
 import SEO from '../components/common/seo'
 
-const Callback = () => (
+const Login = () => (
   <Layout>
-    <SEO title="CALLBACK" />
-    <h1>CALL BACK HERE </h1>
-    <h1>USER AUTHORIZED  </h1>
+    <SEO title="Login" />
+    <h1>Login</h1>
+
   </Layout>
 )
 
-export default Callback
+export default Login

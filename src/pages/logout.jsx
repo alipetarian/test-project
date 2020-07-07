@@ -3,12 +3,12 @@ import { navigate } from 'gatsby'
 import Layout from '../components/common/layout'
 import SEO from '../components/common/seo'
 
-const Account = () => (
+const Logout = () => (
   <Layout>
-    <SEO title="Account" />
-    <h1>ACCOUNT</h1>
+    <SEO title="Logout" />
+    <h1>Logout</h1>
 
   </Layout>
 )
 
-export default Account
+export default Logout
