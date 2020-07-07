@@ -1,14 +1,14 @@
 import React from 'react'
-import { navigate } from 'gatsby'
 import Layout from '../components/common/layout'
 import SEO from '../components/common/seo'
+import Profile from '../components/auth/profile'
 
-const Profile = () => (
+const ProfilePage = () => (
   <Layout>
     <SEO title="Profile" />
     <h1>Profile</h1>
-
+    <Profile />
   </Layout>
 )
 
-export default Profile
+export default ProfilePage

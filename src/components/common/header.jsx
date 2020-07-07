@@ -2,7 +2,12 @@ import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
+import { Nav, Navbar } from 'react-bootstrap'
+import firebaseGatsby from 'gatsby-plugin-firebase'
+import { setUser, getUser, logout } from '../../utils/auth'
+
 import Image from './image'
+import Logo from '../../images/logo2.png'
 
 const NavList = styled.ul`
   display: flex;
@@ -15,55 +20,38 @@ const NavList = styled.ul`
     color: #999999;
     font-size: .9rem;
     margin-right: 1.3rem;
-    text-decoration: none;
-    
+    text-decoration: none; 
   }
 `
 
 const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: 'black',
-      marginBottom: '1.45rem',
-      maxHeight: '100px',
-    }}
-  >
+  <>
 
-    <div className="container-fluid">
-      <div className="row">
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
 
-        <div className="col">
-          <div style={{
-            marginBottom: '1.45rem',
-            maxHeight: '100px',
-            maxWidth: '100px',
-          }}
-          >
-            <Image imgName="logo2.png" />
-          </div>
-        </div>
-        <div className="col d-flex align-items-center justify-content-center">
-
-          <nav>
-            <NavList>
-              <li>
-                <Link className="" activeClassName="text-primary" to="/">Home</Link>
-              </li>
-              <li>
-                <Link className="" activeClassName="text-primary" to="/login">login</Link>
-              </li>
-              <li>
-                <Link className="" activeClassName="text-primary" to="/logout">Logout</Link>
-              </li>
-              <li>
-                <Link className="" activeClassName="text-primary" to="/profile">Profile</Link>
-              </li>
-            </NavList>
-          </nav>
-        </div>
+      <div style={{
+        height: '100px', width: '100px',
+      }}
+      >
+        <Image imgName="logo4.png" />
       </div>
-    </div>
-  </header>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto" />
+        <Nav>
+          <NavList>
+            <li>
+              <Link to="/" activeClassName="text-white">Home</Link>
+            </li>
+            <li><Link to="/login" activeClassName="text-white">Login</Link></li>
+            <li><Link to="/signup" activeClassName="text-white">Sigup</Link></li>
+            <li><Link onClick={() => logout(firebaseGatsby)} to="/logout" activeClassName="text-white">Logout</Link></li>
+            <li><Link to="/profile" activeClassName="text-white">Profile</Link></li>
+          </NavList>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  </>
 )
 
 Header.propTypes = {

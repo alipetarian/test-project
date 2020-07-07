@@ -9,8 +9,6 @@ const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
     <Home />
-
-    <Link to="/account">Go to ACCOUNT page </Link>
   </Layout>
 )
 

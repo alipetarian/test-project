@@ -1,13 +1,13 @@
 import React from 'react'
 import Layout from '../components/common/layout'
 import SEO from '../components/common/seo'
-import Login from '../components/auth/login'
+import Signup from '../components/auth/signup'
 
-const LoginPage = () => (
+const SignupPage = () => (
   <Layout>
-    <SEO title="Login" />
-    <Login />
+    <SEO title="Signup" />
+    <Signup />
   </Layout>
 )
 
-export default LoginPage
+export default SignupPage
