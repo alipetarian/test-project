@@ -4,8 +4,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { Nav, Navbar } from 'react-bootstrap'
 import firebaseGatsby from 'gatsby-plugin-firebase'
-import { setUser, getUser, logout } from '../../utils/auth'
-
+import { navigate } from '@reach/router'
+import {
+  setUser, getUser, logout, isLoggedIn,
+} from '../../utils/auth'
 import Image from './image'
 import Logo from '../../images/logo2.png'
 
@@ -24,35 +26,58 @@ const NavList = styled.ul`
   }
 `
 
-const Header = ({ siteTitle }) => (
-  <>
+const Header = ({ siteTitle }) => {
+  const [state, setState] = React.useState(false)
+  const user = getUser()
+  const size = Object.keys(user).length
 
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  React.useEffect(() => {
+    console.log('getUser ', getUser())
+    if (size > 0) {
+      setState(true)
+    }
+  }, [])
 
-      <div style={{
-        height: '100px', width: '100px',
-      }}
-      >
-        <Image imgName="logo4.png" />
-      </div>
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="mr-auto" />
-        <Nav>
-          <NavList>
-            <li>
-              <Link to="/" activeClassName="text-white">Home</Link>
-            </li>
-            <li><Link to="/login" activeClassName="text-white">Login</Link></li>
-            <li><Link to="/signup" activeClassName="text-white">Sigup</Link></li>
-            <li><Link onClick={() => logout(firebaseGatsby)} to="/logout" activeClassName="text-white">Logout</Link></li>
-            <li><Link to="/profile" activeClassName="text-white">Profile</Link></li>
-          </NavList>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  </>
-)
+  return (
+    <>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <div style={{
+          height: '100px', width: '100px',
+        }}
+        >
+          <Image imgName="logo4.png" />
+        </div>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto" />
+          <Nav>
+            <NavList>
+              <li>
+                <Link to="/" activeClassName="text-white">Home</Link>
+              </li>
+              { !state && (
+              <>
+                <li><Link to="/login" activeClassName="text-white">Login</Link></li>
+                <li><Link to="/signup" activeClassName="text-white">Signup</Link></li>
+              </>
+              )}
+
+              {
+              state
+              && (
+              <>
+                <li><Link to="/profile" activeClassName="text-white">Profile</Link></li>
+                <li><Link to="/logout" activeClassName="text-white">Logout</Link></li>
+              </>
+              )
+            }
+            </NavList>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </>
+  )
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,

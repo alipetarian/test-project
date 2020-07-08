@@ -11,6 +11,8 @@ const GlobalStyle = createGlobalStyle`
 const theme = {
   colors: {
     primary: 'green',
+    lightGray: '#d9d6d0',
+
   },
 }
 

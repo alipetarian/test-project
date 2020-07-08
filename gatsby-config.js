@@ -43,6 +43,9 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-firebase',
       options: {
+        feature: {
+          database: true,
+        },
         credentials: {
           apiKey: process.env.API_KEY,
           authDomain: process.env.AUTH_DOMAIN,

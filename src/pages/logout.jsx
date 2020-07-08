@@ -2,13 +2,13 @@ import React from 'react'
 import { navigate } from 'gatsby'
 import Layout from '../components/common/layout'
 import SEO from '../components/common/seo'
+import Logout from '../components/auth/logout'
 
-const Logout = () => (
+const LogoutPage = () => (
   <Layout>
     <SEO title="Logout" />
-    <h1>Logout</h1>
-
+    <Logout />
   </Layout>
 )
 
-export default Logout
+export default LogoutPage
