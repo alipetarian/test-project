@@ -2,35 +2,44 @@ import React from 'react'
 import {
   Container, Col, Row,
 } from 'react-bootstrap'
-import { navigate } from '@reach/router'
-import { setUser, getUser, isLoggedIn } from '../../utils/auth'
+import { getUser, isLoggedIn } from '../../utils/auth'
 
 const Profile = () => {
   const user = getUser()
-  const { displayName, email, emailVerified } = user && user
-  console.log('user ', user)
+  const {
+    firstname, lastname, email, address, phonenumber, dob,
+  } = user && user
+  console.log('userss ', getUser())
   // const { accessToken } = user && user.stsTokenManager
   // React.useEffect(() => {
   //   if (!isLoggedIn()) {
   //     navigate('/login')
   //   }
   // }, [])
-  const size = Object.keys(user).length
+
+  // const size = Object.keys(user).length
 
   return (
     <Container>
       <Row>
         <Col>
           {
-               size > 0 ? (
+               isLoggedIn ? (
                  <p className="text-gray-700 text-base">
                    <ul>
                      <li>
                        <div className="text-sm">
-                         <b>Name</b>
+                         <b>First Name</b>
                          :
                        </div>
-                       <div className="pl-2 ">{`${displayName}`}</div>
+                       <div className="pl-2 ">{`${firstname}`}</div>
+                     </li>
+                     <li>
+                       <div className="text-sm">
+                         <b>Last Name</b>
+                         :
+                       </div>
+                       <div className="pl-2 ">{`${lastname}`}</div>
                      </li>
                      <li>
                        <div className="text-sm">
@@ -41,17 +50,24 @@ const Profile = () => {
                      </li>
                      <li>
                        <div className="text-sm">
-                         <b>Email Verified</b>
+                         <b>Phone Number</b>
                          :
                        </div>
-                       <div className="pl-2 ">{`${emailVerified}`}</div>
+                       <div className="pl-2 truncate">{`${phonenumber !== null ? phonenumber : 'Not available'}`}</div>
                      </li>
                      <li>
                        <div className="text-sm">
-                         <b>Firebase Access Token</b>
+                         <b>Address</b>
                          :
                        </div>
-                       {/* <div className="pl-2 truncate">{`${accessToken && accessToken}`}</div> */}
+                       <div className="pl-2 truncate">{`${address !== null ? address : 'Not available'}`}</div>
+                     </li>
+                     <li>
+                       <div className="text-sm">
+                         <b>Date of birth</b>
+                         :
+                       </div>
+                       <div className="pl-2 truncate">{`${dob !== null ? dob : 'Not available'}`}</div>
                      </li>
                    </ul>
                  </p>

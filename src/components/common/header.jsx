@@ -3,13 +3,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import { Nav, Navbar } from 'react-bootstrap'
-import firebaseGatsby from 'gatsby-plugin-firebase'
-import { navigate } from '@reach/router'
 import {
-  setUser, getUser, logout, isLoggedIn,
+  getUser,
 } from '../../utils/auth'
 import Image from './image'
-import Logo from '../../images/logo2.png'
 
 const NavList = styled.ul`
   display: flex;

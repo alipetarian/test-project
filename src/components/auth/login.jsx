@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Container,
   Col,
@@ -9,7 +9,7 @@ import {
   FormText,
 } from 'react-bootstrap'
 import {
-  Formik, Form, Field, ErrorMessage,
+  Formik, Form, Field,
 } from 'formik'
 import * as Yup from 'yup'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
@@ -18,7 +18,7 @@ import { navigate } from '@reach/router'
 import swal from 'sweetalert'
 import styled from 'styled-components'
 import {
-  setUser, isLoggedIn, isBrowser, getUser,
+  setUser, isBrowser, getUser,
 } from '../../utils/auth'
 
 const LoginContainer = styled.div`
@@ -35,8 +35,9 @@ const LoginSchema = Yup.object().shape({
 })
 
 const Login = () => {
-  // const [firebase, setFirebase] = useState()
-  const [state, setState] = React.useState({ email: '', password: '' })
+  const [state, setState] = React.useState({
+    email: '', password: '', firstname: '', lastname: '', dob: '', phonenumber: '', address: '',
+  })
   React.useEffect(() => {
     if (Object.keys(getUser()).length > 0) {
       navigate('/profile')
@@ -54,6 +55,14 @@ const Login = () => {
       callbacks: {
         signInSuccessWithAuthResult: (result) => {
           setUser(result.user)
+          const someString = result.user.displayName
+          const index = someString.indexOf(' ')
+          const firstname = someString.substr(0, index)
+          const lastname = someString.substr(index + 1)
+          setTimeout(() => {
+            setState({ ...state, firstname, lastname })
+          }, 3000)
+          console.log('state2 ', state, ' ', firstname)
           navigate('/profile')
         },
       },
@@ -75,30 +84,35 @@ const Login = () => {
               validationSchema={LoginSchema}
               onSubmit={(values) => {
                 // same shape as initial values
-                console.log('values ', values)
-                firebaseGatsby.auth().signInWithEmailAndPassword(values.email, values.password).then(() => {
-                  console.log('success')
-                  setUser(values)
-                  swal({
-                    title: 'Success',
-                    text: 'You\'ve successfully logged in',
-                    icon: 'success',
-                    dangerMode: false,
+                firebaseGatsby.auth().signInWithEmailAndPassword(values.email, values.password)
+                  .then(({ user }) => {
+                    firebaseGatsby.firestore().collection('users').doc(`${user.uid}`).onSnapshot((res) => {
+                      setUser(res.data())
+                      console.log('successsss ', res.data())
+                      setTimeout(() => {
+                        navigate('/profile')
+                      }, 2000)
+                    })
+
+                    swal({
+                      title: 'Success',
+                      text: 'You\'ve successfully logged in',
+                      icon: 'success',
+                      dangerMode: false,
+                    })
+                  }).catch((err) => {
+                    swal({
+                      title: 'Error',
+                      text: 'User not found',
+                      icon: 'error',
+                      dangerMode: true,
+                    })
+                    console.log('err ', err)
                   })
-                  navigate('/profile')
-                }).catch((err) => {
-                  swal({
-                    title: 'Error',
-                    text: 'User not found',
-                    icon: 'error',
-                    dangerMode: true,
-                  })
-                  console.log('err ', err)
-                })
               }}
             >
               {({
-                errors, touched, onSubmit, values: { email, password }, isSubmitting, isValid,
+                errors, touched,
               }) => (
 
                 <Form>
@@ -127,7 +141,13 @@ const Login = () => {
                     <FormText className="text-danger">{errors.password}</FormText>
                   ) : null}
 
-                  { isBrowser() && <StyledFirebaseAuth uiConfig={getUiConfig(firebaseGatsby.auth)} firebaseAuth={firebaseGatsby.auth()} />}
+                  { isBrowser()
+                  && (
+                  <StyledFirebaseAuth
+                    uiConfig={getUiConfig(firebaseGatsby.auth)}
+                    firebaseAuth={firebaseGatsby.auth()}
+                  />
+                  )}
 
                   <Button variant="primary" type="submit" size="lg">
                     Submit
@@ -136,7 +156,6 @@ const Login = () => {
               )}
             </Formik>
           </LoginContainer>
-
         </Col>
 
         <Col md={3} />

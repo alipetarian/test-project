@@ -18,7 +18,7 @@ import { navigate } from '@reach/router'
 import swal from 'sweetalert'
 import styled from 'styled-components'
 import {
-  setUser, isLoggedIn, getUser,
+  setUser, getUser,
 } from '../../utils/auth'
 
 const SignupContainer = styled.div`
@@ -35,9 +35,10 @@ const SignupSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Too Short!').required('Required'),
   phonenumber: Yup.number().min(3, 'Too Short!').required('Required'),
   address: Yup.string().min(3, 'Too Short!').required('Required'),
-  // dob: Yup.string().min(3, 'Too Short!').required('Required'),
+  dob: Yup.string().required('Required'),
 
 })
+
 const Signup = () => {
   React.useEffect(() => {
     if (Object.keys(getUser()).length > 0) {
@@ -59,42 +60,40 @@ const Signup = () => {
                 password: '',
                 phonenumber: '',
                 address: '',
-                // dob: '',
+                dob: '',
 
               }}
               validationSchema={SignupSchema}
               onSubmit={(values) => {
                 // same shape as initial values
-                console.log('values ', values)
-                firebaseGatsby.auth().createUserWithEmailAndPassword(values.email, values.password).then(({ user }) => {
-                  setUser(values)
-                  console.log('success1 ', user.uid)
-                  // const db = firebaseGatsby.database()
-                  // db.ref('users').child(`${user.uid}`).then((snapshot) => {
-                  //   console.log('snapshot ', snapshot.val())
-                  // })
-                  console.log('success2 ', user.uid, ' ')
-
-                  swal({
-                    title: 'Success',
-                    text: 'You\'ve successfully signed up',
-                    icon: 'success',
-                    dangerMode: false,
+                console.log('valuesss ', values)
+                firebaseGatsby.auth().createUserWithEmailAndPassword(values.email, values.password)
+                  .then(({ user }) => {
+                    setUser(values)
+                    console.log('success1 ', user.uid)
+                    console.log('firebase object', firebaseGatsby)
+                    firebaseGatsby.firestore().collection('users').doc(`${user.uid}`).set(values)
+                    console.log('success2 ')
+                    swal({
+                      title: 'Success',
+                      text: 'You\'ve successfully signed up',
+                      icon: 'success',
+                      dangerMode: false,
+                    })
+                    navigate('/profile')
+                  }).catch((err) => {
+                    swal({
+                      title: 'Error',
+                      text: 'Error in signing up',
+                      icon: 'error',
+                      dangerMode: true,
+                    })
+                    console.log('err ', err)
                   })
-                  navigate('/profile')
-                }).catch((err) => {
-                  swal({
-                    title: 'Error',
-                    text: 'Error in signing up',
-                    icon: 'error',
-                    dangerMode: true,
-                  })
-                  console.log('err ', err)
-                })
               }}
             >
               {({
-                errors, touched, onSubmit, values: { email, password }, isSubmitting, isValid,
+                errors, touched,
               }) => (
 
                 <Form>
@@ -189,9 +188,9 @@ const Signup = () => {
                         <FormLabel>Date of Birth</FormLabel>
                         <Field
                           name="dob"
-                          type="dob"
+                          type="date"
                           className="form-control"
-                          as="select"
+                          as="input"
                         />
                       </FormGroup>
                       {errors.dob && touched.dob ? (
@@ -213,4 +212,5 @@ const Signup = () => {
     </Container>
   )
 }
+
 export default Signup
