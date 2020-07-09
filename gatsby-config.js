@@ -4,9 +4,9 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Default Starter',
-    description: 'Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.',
-    author: '@gatsbyjs',
+    title: 'Block Capital',
+    description: ' This is an official website of Block Capital',
+    author: '@sheroze_ali',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -43,28 +43,19 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-firebase',
       options: {
-        credentials: {
-          apiKey: 'AIzaSyAA5cXbjNObkuGmd5TgtO1fxt26K2FZjTQ',
-          authDomain: 'blockcap-test.firebaseapp.com',
-          databaseURL: 'https://blockcap-test.firebaseio.com',
-          projectId: 'blockcap-test',
-          storageBucket: 'blockcap-test.appspot.com',
-          messagingSenderId: '2708716182',
-          appId: '1:2708716182:web:8efd6c921d69a92a77e0b7',
-          measurementId: 'G-K177JT4BRR',
+        feature: {
+          database: true,
         },
-      },
-    },
-    {
-      resolve: 'gatsby-theme-auth0',
-      options: {
-        domain: process.env.AUTH0_DOMAIN,
-        clientID: process.env.AUTH0_CLIENT_ID,
-        redirectUri: process.env.AUTH0_CALLBACK_URL,
-        // audience: process.env.AUTH0_AUDIENCE, // Optional
-        // responseType: process.env.AUTH0_RESPONSE_TYPE, // Optional
-        // scope: process.env.AUTH0_SCOPE, // Optional
-        // callbackPath: "/auth/callback", // Optional
+        credentials: {
+          apiKey: process.env.API_KEY,
+          authDomain: process.env.AUTH_DOMAIN,
+          databaseURL: process.env.DATABASE_URL,
+          projectId: process.env.PROJECT_ID,
+          storageBucket: process.env.STORAGE_BUCKET,
+          messagingSenderId: process.env.MESSAGING_SENDER_ID,
+          appId: process.env.APP_ID,
+          measurementId: process.env.MEASUREMENT_ID,
+        },
       },
     },
     'gatsby-plugin-styled-components',

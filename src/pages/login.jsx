@@ -1,13 +1,13 @@
 import React from 'react'
 import Layout from '../components/common/layout'
 import SEO from '../components/common/seo'
+import Login from '../components/auth/login'
 
-const Callback = () => (
+const LoginPage = () => (
   <Layout>
-    <SEO title="CALLBACK" />
-    <h1>CALL BACK HERE </h1>
-    <h1>USER AUTHORIZED  </h1>
+    <SEO title="Login" />
+    <Login />
   </Layout>
 )
 
-export default Callback
+export default LoginPage
